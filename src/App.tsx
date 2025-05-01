@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { MoviesProvider } from './contexts/MoviesContext';
 import { ProfilesProvider } from './contexts/ProfilesContext';
 import { ThemeProvider } from './contexts/ThemeContext';
+import { LanguageProvider } from './contexts/LanguageContext';
 import Layout from './components/Layout';
 import HomePage from './pages/HomePage';
 import ProfilesPage from './pages/ProfilesPage';
@@ -13,9 +14,10 @@ import ProfileFormPage from './pages/ProfileFormPage';
 
 function App() {
   return (
-    <ThemeProvider>
-      <ProfilesProvider>
-        <MoviesProvider>
+    <LanguageProvider>
+      <ThemeProvider>
+        <ProfilesProvider>
+          <MoviesProvider>
           <Router>
             <Layout>
               <Routes>
@@ -29,9 +31,10 @@ function App() {
               </Routes>
             </Layout>
           </Router>
-        </MoviesProvider>
-      </ProfilesProvider>
-    </ThemeProvider>
+          </MoviesProvider>
+        </ProfilesProvider>
+      </ThemeProvider>
+    </LanguageProvider>
   );
 }
 

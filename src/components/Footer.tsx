@@ -1,9 +1,11 @@
 import React from 'react';
 import { Popcorn, Heart } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
+import { useLanguage } from '../contexts/LanguageContext';
 
 const Footer: React.FC = () => {
   const { theme } = useTheme();
+  const { t } = useLanguage();
   
   return (
     <footer className={`py-6 transition-colors duration-300 ${
@@ -14,19 +16,19 @@ const Footer: React.FC = () => {
           <div className="flex items-center mb-4 md:mb-0">
             <Popcorn className="w-6 h-6 text-primary-500 mr-2" />
             <span className="text-lg font-semibold bg-gradient-to-r from-primary-500 to-accent-300 bg-clip-text text-transparent">
-              PopCorn Pick
+              {t('app.name')}
             </span>
           </div>
           
           <div className="text-sm text-navy-600 dark:text-cream-300">
             <div className="flex items-center justify-center md:justify-end">
-              <span>Made with</span>
+              <span>{t('footer.madeWith')}</span>
               <Heart className="w-4 h-4 mx-1 text-primary-500 fill-current" />
-              <span>for movie-loving families</span>
+              <span>{t('footer.forFamilies')}</span>
             </div>
             <div className="mt-1 text-center md:text-right">
               <p>
-                Movie data provided by{' '}
+                {t('footer.movieData')}{' '}
                 <a 
                   href="https://www.themoviedb.org" 
                   target="_blank" 
@@ -36,7 +38,7 @@ const Footer: React.FC = () => {
                   TMDB
                 </a>
               </p>
-              <p className="mt-1">© 2025 PopCorn Pick</p>
+              <p className="mt-1">{t('footer.copyright')}</p>
             </div>
           </div>
         </div>

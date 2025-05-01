@@ -33,6 +33,8 @@ export interface QuestionnaireAnswers {
   platforms: string[];
   includeWatched: boolean;
   maxResults: number;
+  minRating: number; // New field
+  certification: string; // New field
 }
 
 export const PLATFORM_OPTIONS = [
@@ -62,4 +64,23 @@ export const DURATION_OPTIONS = [
   { value: 120, label: 'Less than 2 hours' },
   { value: 150, label: 'Less than 2.5 hours' },
   { value: 999, label: 'Any length' }
+];
+
+// Rating filter options
+export const RATING_OPTIONS = [
+  { value: 7.5, label: '7.5+' },
+  { value: 8, label: '8+' },
+  { value: 8.5, label: '8.5+' },
+  { value: 9, label: '9+' },
+  { value: 0, label: 'Any rating' }
+];
+
+// Certification options (US ratings)
+export const CERTIFICATION_OPTIONS = [
+  { value: 'G', label: 'G - General Audiences' },
+  { value: 'PG', label: 'PG - Parental Guidance Suggested' },
+  { value: 'PG-13', label: 'PG-13 - Parents Strongly Cautioned' },
+  { value: 'R', label: 'R - Restricted' },
+  { value: 'NC-17', label: 'NC-17 - Adults Only' },
+  { value: '', label: 'Any certification' }
 ];

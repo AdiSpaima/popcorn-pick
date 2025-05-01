@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ChevronLeft, Save, Trash } from 'lucide-react';
 import { useProfiles } from '../contexts/ProfilesContext';
+import { useLanguage } from '../contexts/LanguageContext';
 import { Profile, GENRE_OPTIONS, LANGUAGE_OPTIONS } from '../types/profile';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -10,6 +11,7 @@ const ProfileFormPage: React.FC = () => {
   const isEditing = Boolean(id);
   const { addProfile, updateProfile, getProfileById } = useProfiles();
   const navigate = useNavigate();
+  const { t } = useLanguage();
   
   const [formData, setFormData] = useState<Omit<Profile, 'id'>>({
     name: '',
@@ -48,7 +50,9 @@ const ProfileFormPage: React.FC = () => {
       }
     }
     
-    document.title = isEditing ? 'Edit Profile - PopCorn Pick' : 'Create Profile - PopCorn Pick';
+    document.title = isEditing
+      ? `${t('profileForm.editTitle')} - ${t('app.name')}`
+      : `${t('profileForm.createTitle')} - ${t('app.name')}`;
   }, [id, isEditing, getProfileById, navigate]);
   
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -107,7 +111,7 @@ const ProfileFormPage: React.FC = () => {
     e.preventDefault();
     
     if (!formData.name.trim()) {
-      alert('Please enter a name for the profile');
+      alert(t('profileForm.namePlaceholder'));
       return;
     }
     
@@ -136,7 +140,7 @@ const ProfileFormPage: React.FC = () => {
           <ChevronLeft className="w-5 h-5" />
         </button>
         <h1 className="text-2xl md:text-3xl font-bold">
-          {isEditing ? 'Edit Profile' : 'Create New Profile'}
+          {isEditing ? t('profileForm.editTitle') : t('profileForm.createTitle')}
         </h1>
       </div>
       
@@ -144,7 +148,7 @@ const ProfileFormPage: React.FC = () => {
         <div className="space-y-6">
           <div>
             <label htmlFor="name" className="block text-sm font-medium text-navy-700 dark:text-cream-300 mb-1">
-              Name
+              {t('profileForm.name')}
             </label>
             <input
               type="text"
@@ -152,7 +156,7 @@ const ProfileFormPage: React.FC = () => {
               name="name"
               value={formData.name}
               onChange={handleInputChange}
-              placeholder="Enter name"
+              placeholder={t('profileForm.namePlaceholder')}
               className="w-full px-4 py-2 border border-navy-300 dark:border-darkNavy-600 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-darkNavy-700 dark:text-white"
               required
             />
@@ -160,7 +164,7 @@ const ProfileFormPage: React.FC = () => {
           
           <div>
             <label htmlFor="age" className="block text-sm font-medium text-navy-700 dark:text-cream-300 mb-1">
-              Age
+              {t('profileForm.age')}
             </label>
             <input
               type="number"
@@ -196,7 +200,7 @@ const ProfileFormPage: React.FC = () => {
           
           <div>
             <label className="block text-sm font-medium text-navy-700 dark:text-cream-300 mb-3">
-              Favorite Genres
+              {t('profileForm.genres')}
             </label>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
               {GENRE_OPTIONS.map(genre => (
@@ -366,14 +370,14 @@ const ProfileFormPage: React.FC = () => {
             onClick={() => navigate('/profiles')}
             className="px-4 py-2 border border-navy-300 dark:border-darkNavy-600 rounded-lg text-navy-700 dark:text-cream-300 hover:bg-cream-100 dark:hover:bg-darkNavy-700 transition-colors"
           >
-            Cancel
+            {t('profileForm.cancel')}
           </button>
           <button
             type="submit"
             className="px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors flex items-center"
           >
             <Save className="w-4 h-4 mr-2" />
-            {isEditing ? 'Update Profile' : 'Create Profile'}
+            {isEditing ? t('profileForm.editTitle') : t('profileForm.save')}
           </button>
         </div>
       </form>

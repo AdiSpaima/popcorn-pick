@@ -2,11 +2,14 @@ import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Popcorn, Film, Users, History, Menu, X } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
+import { useLanguage } from '../contexts/LanguageContext';
 import ThemeToggle from './ThemeToggle';
+import LanguageToggle from './LanguageToggle';
 
 const Header: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const { theme } = useTheme();
+  const { t } = useLanguage();
   const location = useLocation();
   
   const toggleMenu = () => {
@@ -30,7 +33,7 @@ const Header: React.FC = () => {
           <Link to="/" className="flex items-center space-x-2" onClick={closeMenu}>
             <Popcorn className="w-8 h-8 text-primary-500" />
             <span className="text-xl font-bold bg-gradient-to-r from-primary-500 to-accent-300 bg-clip-text text-transparent">
-              PopCorn Pick
+              {t('app.name')}
             </span>
           </Link>
           
@@ -45,7 +48,7 @@ const Header: React.FC = () => {
               }`}
             >
               <Film className="w-5 h-5" />
-              <span>Recommend</span>
+              <span>{t('nav.recommend')}</span>
             </Link>
             <Link 
               to="/profiles" 
@@ -56,7 +59,7 @@ const Header: React.FC = () => {
               }`}
             >
               <Users className="w-5 h-5" />
-              <span>Profiles</span>
+              <span>{t('nav.profiles')}</span>
             </Link>
             <Link 
               to="/history" 
@@ -67,14 +70,20 @@ const Header: React.FC = () => {
               }`}
             >
               <History className="w-5 h-5" />
-              <span>History</span>
+              <span>{t('nav.history')}</span>
             </Link>
-            <ThemeToggle />
+            <div className="flex items-center space-x-2">
+              <LanguageToggle />
+              <ThemeToggle />
+            </div>
           </nav>
           
           {/* Mobile Menu Button */}
           <div className="md:hidden flex items-center">
-            <ThemeToggle />
+            <div className="flex items-center">
+              <LanguageToggle />
+              <ThemeToggle />
+            </div>
             <button 
               onClick={toggleMenu}
               className="ml-2 p-2 rounded-full hover:bg-cream-100 dark:hover:bg-darkNavy-700 transition-colors"
@@ -104,7 +113,7 @@ const Header: React.FC = () => {
                   onClick={closeMenu}
                 >
                   <Film className="w-5 h-5" />
-                  <span>Recommend</span>
+                  <span>{t('nav.recommend')}</span>
                 </Link>
               </li>
               <li>
@@ -118,7 +127,7 @@ const Header: React.FC = () => {
                   onClick={closeMenu}
                 >
                   <Users className="w-5 h-5" />
-                  <span>Profiles</span>
+                  <span>{t('nav.profiles')}</span>
                 </Link>
               </li>
               <li>
@@ -132,7 +141,7 @@ const Header: React.FC = () => {
                   onClick={closeMenu}
                 >
                   <History className="w-5 h-5" />
-                  <span>History</span>
+                  <span>{t('nav.history')}</span>
                 </Link>
               </li>
             </ul>

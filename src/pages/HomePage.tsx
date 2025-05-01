@@ -2,14 +2,16 @@ import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Film, Users, ArrowRight } from 'lucide-react';
 import { useProfiles } from '../contexts/ProfilesContext';
+import { useLanguage } from '../contexts/LanguageContext';
 
 const HomePage: React.FC = () => {
   const { profiles, selectedProfiles } = useProfiles();
   const navigate = useNavigate();
+  const { t } = useLanguage();
   
   useEffect(() => {
     // Set page title
-    document.title = 'PopCorn Pick - Find Your Perfect Family Movie';
+    document.title = `${t('app.name')} - ${t('home.title')}`;
   }, []);
   
   const handleGetStarted = () => {
@@ -26,11 +28,10 @@ const HomePage: React.FC = () => {
     <div className="flex flex-col items-center">
       <section className="w-full max-w-4xl mb-12 text-center">
         <h1 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-primary-500 to-accent-300 bg-clip-text text-transparent">
-          Find Your Perfect Family Movie Night
+          {t('home.title')}
         </h1>
         <p className="text-lg md:text-xl text-navy-700 dark:text-cream-200 mb-8">
-          Tell us who's watching, your mood, and what you're looking for. 
-          We'll find the perfect movie that everyone will love!
+          {t('home.subtitle')}
         </p>
         
         <button
@@ -39,7 +40,7 @@ const HomePage: React.FC = () => {
                    hover:bg-primary-600 transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1"
         >
           <Film className="w-5 h-5 mr-2" />
-          Get Movie Recommendations
+          {t('home.getRecommendations')}
           <ArrowRight className="w-5 h-5 ml-2" />
         </button>
       </section>
@@ -49,9 +50,9 @@ const HomePage: React.FC = () => {
           <div className="w-12 h-12 bg-primary-100 dark:bg-primary-900 rounded-full flex items-center justify-center mb-4">
             <Users className="w-6 h-6 text-primary-600 dark:text-primary-400" />
           </div>
-          <h2 className="text-xl font-semibold mb-2">Create Family Profiles</h2>
+          <h2 className="text-xl font-semibold mb-2">{t('home.createProfiles')}</h2>
           <p className="text-navy-600 dark:text-cream-300">
-            Set up profiles for each family member with their ages, preferences, and sensitivities.
+            {t('home.createProfilesDesc')}
           </p>
         </div>
         
@@ -59,9 +60,9 @@ const HomePage: React.FC = () => {
           <div className="w-12 h-12 bg-secondary-100 dark:bg-secondary-900 rounded-full flex items-center justify-center mb-4">
             <Film className="w-6 h-6 text-secondary-600 dark:text-secondary-400" />
           </div>
-          <h2 className="text-xl font-semibold mb-2">Answer Quick Questions</h2>
+          <h2 className="text-xl font-semibold mb-2">{t('home.answerQuestions')}</h2>
           <p className="text-navy-600 dark:text-cream-300">
-            Tell us your mood, available time, and which streaming services you have access to.
+            {t('home.answerQuestionsDesc')}
           </p>
         </div>
         
@@ -71,49 +72,49 @@ const HomePage: React.FC = () => {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
             </svg>
           </div>
-          <h2 className="text-xl font-semibold mb-2">Get Perfect Matches</h2>
+          <h2 className="text-xl font-semibold mb-2">{t('home.getPerfectMatches')}</h2>
           <p className="text-navy-600 dark:text-cream-300">
-            Receive personalized movie recommendations that everyone in the family will enjoy.
+            {t('home.getPerfectMatchesDesc')}
           </p>
         </div>
       </section>
       
       <section className="w-full max-w-4xl bg-gradient-to-r from-primary-500/10 to-accent-300/10 dark:from-primary-900/30 dark:to-accent-800/30 rounded-2xl p-6 md:p-8 mb-12">
-        <h2 className="text-2xl font-bold mb-4 text-center">Why PopCorn Pick?</h2>
+        <h2 className="text-2xl font-bold mb-4 text-center">{t('home.whyPopcornPick')}</h2>
         <div className="grid md:grid-cols-2 gap-6">
           <div className="flex items-start">
             <span className="text-primary-600 dark:text-primary-400 mr-3 text-xl font-bold">✓</span>
             <div>
-              <h3 className="font-semibold mb-1">Personalized for Everyone</h3>
+              <h3 className="font-semibold mb-1">{t('home.personalizedForEveryone')}</h3>
               <p className="text-navy-700 dark:text-cream-200">
-                Finds movies that match the whole family's preferences, not just one person's.
+                {t('home.personalizedForEveryoneDesc')}
               </p>
             </div>
           </div>
           <div className="flex items-start">
             <span className="text-primary-600 dark:text-primary-400 mr-3 text-xl font-bold">✓</span>
             <div>
-              <h3 className="font-semibold mb-1">Age-Appropriate Filtering</h3>
+              <h3 className="font-semibold mb-1">{t('home.ageAppropriate')}</h3>
               <p className="text-navy-700 dark:text-cream-200">
-                Automatically filters content based on the youngest viewer's age.
+                {t('home.ageAppropriateDesc')}
               </p>
             </div>
           </div>
           <div className="flex items-start">
             <span className="text-primary-600 dark:text-primary-400 mr-3 text-xl font-bold">✓</span>
             <div>
-              <h3 className="font-semibold mb-1">Mood-Based Recommendations</h3>
+              <h3 className="font-semibold mb-1">{t('home.moodBased')}</h3>
               <p className="text-navy-700 dark:text-cream-200">
-                Suggests movies that match your current mood and available time.
+                {t('home.moodBasedDesc')}
               </p>
             </div>
           </div>
           <div className="flex items-start">
             <span className="text-primary-600 dark:text-primary-400 mr-3 text-xl font-bold">✓</span>
             <div>
-              <h3 className="font-semibold mb-1">All Your Platforms</h3>
+              <h3 className="font-semibold mb-1">{t('home.allPlatforms')}</h3>
               <p className="text-navy-700 dark:text-cream-200">
-                Only shows movies available on your streaming services.
+                {t('home.allPlatformsDesc')}
               </p>
             </div>
           </div>
@@ -122,9 +123,9 @@ const HomePage: React.FC = () => {
       
       {profiles.length === 0 ? (
         <div className="w-full max-w-4xl mb-8 flex flex-col items-center">
-          <h2 className="text-2xl font-semibold mb-4">Get Started</h2>
+          <h2 className="text-2xl font-semibold mb-4">{t('home.getStarted')}</h2>
           <p className="text-navy-700 dark:text-cream-200 mb-5 text-center">
-            Create profiles for your family members to get personalized recommendations.
+            {t('home.createProfilesPrompt')}
           </p>
           <button
             onClick={() => navigate('/profiles/new')}
@@ -132,19 +133,19 @@ const HomePage: React.FC = () => {
                      hover:bg-primary-600 transition-all"
           >
             <Users className="w-5 h-5 mr-2" />
-            Create First Profile
+            {t('home.createFirstProfile')}
           </button>
         </div>
       ) : (
         <div className="w-full max-w-4xl mb-8 flex flex-col items-center">
-          <h2 className="text-2xl font-semibold mb-4">Ready to find your movie?</h2>
+          <h2 className="text-2xl font-semibold mb-4">{t('home.readyToFind')}</h2>
           <button
             onClick={handleGetStarted}
             className="inline-flex items-center px-5 py-2 bg-primary-500 text-white font-medium rounded-lg
                      hover:bg-primary-600 transition-all"
           >
             <Film className="w-5 h-5 mr-2" />
-            Find Movies Now
+            {t('home.findMoviesNow')}
           </button>
         </div>
       )}

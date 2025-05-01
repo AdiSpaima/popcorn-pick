@@ -1,217 +1,114 @@
 import { Movie, QuestionnaireAnswers } from '../types/movie';
 import { Profile } from '../types/profile';
+import { discoverMovies, getMovieDetails, getMovieWatchProviders, getMovieRuntime } from './tmdbApi';
 
+// Keep the MOCK_MOVIES as a fallback in case the API fails
 const MOCK_MOVIES: Movie[] = [
-  {
-    id: 1,
-    title: "The Incredibles",
-    overview: "A family of undercover superheroes, while trying to live the quiet suburban life, are forced into action to save the world.",
-    poster_path: "https://images.pexels.com/photos/2774556/pexels-photo-2774556.jpeg",
-    backdrop_path: "https://images.pexels.com/photos/436413/pexels-photo-436413.jpeg",
-    release_date: "2004-11-05",
-    vote_average: 8.0,
-    genre_ids: [16, 10751, 28, 12],
-    runtime: 115,
-    providers: {
-      disney: true
-    },
+  // ... existing mock movies
+];
+
+// Map provider IDs to our provider keys
+const providerIdMap: Record<number, string> = {
+  8: 'netflix',    // Netflix
+  9: 'amazon',     // Amazon Prime
+  337: 'disney',   // Disney+
+  2: 'apple',      // Apple TV
+  384: 'hbo',      // HBO Max
+  // 15: 'hulu',      // Hulu
+  // 531: 'paramount', // Paramount+
+  // 386: 'peacock'   // Peacock
+};
+
+// Transform TMDB movie to our Movie type
+function transformTMDBMovie(tmdbMovie: any): Movie {
+  return {
+    id: tmdbMovie.id,
+    title: tmdbMovie.title,
+    overview: tmdbMovie.overview,
+    poster_path: tmdbMovie.poster_path 
+      ? `https://image.tmdb.org/t/p/w500${tmdbMovie.poster_path}`
+      : 'https://via.placeholder.com/500x750',
+    backdrop_path: tmdbMovie.backdrop_path
+      ? `https://image.tmdb.org/t/p/original${tmdbMovie.backdrop_path}`
+      : 'https://via.placeholder.com/1920x1080',
+    release_date: tmdbMovie.release_date,
+    vote_average: tmdbMovie.vote_average,
+    genre_ids: tmdbMovie.genre_ids || [],
+    runtime: tmdbMovie.runtime || 120, // Default runtime if not available
+    providers: {}, // Will be populated later
     contentRatings: {
-      violence: 2,
-      language: 1,
-      sexualContent: 1,
-      frightening: 2
-    }
-  },
-  {
-    id: 2,
-    title: "Finding Nemo",
-    overview: "After his son is captured in the Great Barrier Reef and taken to Sydney, a timid clownfish sets out on a journey to bring him home.",
-    poster_path: "https://images.pexels.com/photos/3374937/pexels-photo-3374937.jpeg",
-    backdrop_path: "https://images.pexels.com/photos/3374946/pexels-photo-3374946.jpeg",
-    release_date: "2003-05-30",
-    vote_average: 8.1,
-    genre_ids: [16, 10751, 12],
-    runtime: 100,
-    providers: {
-      disney: true,
-      netflix: true
-    },
-    contentRatings: {
-      violence: 1,
-      language: 1,
-      sexualContent: 1,
-      frightening: 2
-    }
-  },
-  {
-    id: 3,
-    title: "Toy Story",
-    overview: "A cowboy doll is profoundly threatened and jealous when a new spaceman figure supplants him as top toy in a boy's room.",
-    poster_path: "https://images.pexels.com/photos/163036/mario-luigi-yoschi-figures-163036.jpeg",
-    backdrop_path: "https://images.pexels.com/photos/163036/mario-luigi-yoschi-figures-163036.jpeg",
-    release_date: "1995-11-22",
-    vote_average: 8.3,
-    genre_ids: [16, 10751, 35],
-    runtime: 81,
-    providers: {
-      disney: true
-    },
-    contentRatings: {
-      violence: 1,
-      language: 1,
-      sexualContent: 1,
-      frightening: 2
-    }
-  },
-  {
-    id: 4,
-    title: "How to Train Your Dragon",
-    overview: "A hapless young Viking who aspires to hunt dragons becomes the unlikely friend of a young dragon himself.",
-    poster_path: "https://images.pexels.com/photos/1661535/pexels-photo-1661535.jpeg",
-    backdrop_path: "https://images.pexels.com/photos/1661535/pexels-photo-1661535.jpeg",
-    release_date: "2010-03-26",
-    vote_average: 7.8,
-    genre_ids: [16, 10751, 12, 14],
-    runtime: 98,
-    providers: {
-      netflix: true
-    },
-    contentRatings: {
-      violence: 2,
-      language: 1,
-      sexualContent: 1,
-      frightening: 2
-    }
-  },
-  {
-    id: 5,
-    title: "The Princess Bride",
-    overview: "While home sick in bed, a young boy's grandfather reads him the story of a farmboy-turned-pirate who encounters numerous obstacles on the quest to be reunited with his true love.",
-    poster_path: "https://images.pexels.com/photos/1152994/pexels-photo-1152994.jpeg",
-    backdrop_path: "https://images.pexels.com/photos/1152994/pexels-photo-1152994.jpeg",
-    release_date: "1987-09-25",
-    vote_average: 7.7,
-    genre_ids: [12, 35, 10749, 14],
-    runtime: 98,
-    providers: {
-      netflix: true,
-      amazon: true
-    },
-    contentRatings: {
-      violence: 2,
-      language: 1,
-      sexualContent: 1,
-      frightening: 2
-    }
-  },
-  {
-    id: 6,
-    title: "The Lego Movie",
-    overview: "An ordinary LEGO construction worker is recruited to join a quest to stop an evil tyrant from gluing the LEGO universe into eternal stasis.",
-    poster_path: "https://images.pexels.com/photos/163036/mario-luigi-yoschi-figures-163036.jpeg",
-    backdrop_path: "https://images.pexels.com/photos/163036/mario-luigi-yoschi-figures-163036.jpeg",
-    release_date: "2014-02-07",
-    vote_average: 7.7,
-    genre_ids: [16, 10751, 35, 12],
-    runtime: 100,
-    providers: {
-      hbo: true
-    },
-    contentRatings: {
-      violence: 1,
-      language: 1,
-      sexualContent: 1,
-      frightening: 1
-    }
-  },
-  {
-    id: 7,
-    title: "Night at the Museum",
-    overview: "A newly recruited night security guard at the Museum of Natural History discovers that an ancient curse causes the animals and exhibits on display to come to life and wreak havoc.",
-    poster_path: "https://images.pexels.com/photos/2372978/pexels-photo-2372978.jpeg",
-    backdrop_path: "https://images.pexels.com/photos/2372978/pexels-photo-2372978.jpeg",
-    release_date: "2006-12-22",
-    vote_average: 6.7,
-    genre_ids: [35, 12, 14, 10751],
-    runtime: 108,
-    providers: {
-      disney: true
-    },
-    contentRatings: {
-      violence: 2,
-      language: 1,
-      sexualContent: 1,
-      frightening: 2
-    }
-  },
-  {
-    id: 8,
-    title: "The Neverending Story",
-    overview: "A troubled boy dives into a wondrous fantasy world through the pages of a mysterious book.",
-    poster_path: "https://images.pexels.com/photos/2099691/pexels-photo-2099691.jpeg",
-    backdrop_path: "https://images.pexels.com/photos/2099691/pexels-photo-2099691.jpeg",
-    release_date: "1984-07-20",
-    vote_average: 7.4,
-    genre_ids: [12, 14, 10751],
-    runtime: 102,
-    providers: {
-      netflix: true,
-      hbo: true
-    },
-    contentRatings: {
-      violence: 2,
-      language: 1,
-      sexualContent: 1,
+      violence: 3, // Default values
+      language: 3,
+      sexualContent: 3,
       frightening: 3
     }
-  },
-  {
-    id: 9,
-    title: "The Iron Giant",
-    overview: "A young boy befriends a giant robot from outer space that a paranoid government agent wants to destroy.",
-    poster_path: "https://images.pexels.com/photos/2085831/pexels-photo-2085831.jpeg",
-    backdrop_path: "https://images.pexels.com/photos/2085831/pexels-photo-2085831.jpeg",
-    release_date: "1999-08-06",
-    vote_average: 8.0,
-    genre_ids: [16, 10751, 878],
-    runtime: 86,
-    providers: {
-      hbo: true
-    },
-    contentRatings: {
-      violence: 2,
-      language: 1,
-      sexualContent: 1,
-      frightening: 2
-    }
-  },
-  {
-    id: 10,
-    title: "The Wizard of Oz",
-    overview: "Dorothy Gale is swept away from a farm in Kansas to a magical land of Oz in a tornado and embarks on a quest with her new friends to see the Wizard.",
-    poster_path: "https://images.pexels.com/photos/2873486/pexels-photo-2873486.jpeg",
-    backdrop_path: "https://images.pexels.com/photos/2873486/pexels-photo-2873486.jpeg",
-    release_date: "1939-08-25",
-    vote_average: 7.6,
-    genre_ids: [12, 14, 10751],
-    runtime: 102,
-    providers: {
-      hbo: true,
-      amazon: true
-    },
-    contentRatings: {
-      violence: 1,
-      language: 1,
-      sexualContent: 1,
-      frightening: 2
-    }
+  };
+}
+
+// Map certification to content ratings
+function mapCertificationToContentRatings(certification: string): { 
+  violence: number; 
+  language: number; 
+  sexualContent: number; 
+  frightening: number; 
+} {
+  // Default moderate ratings
+  const defaultRatings = {
+    violence: 3,
+    language: 3,
+    sexualContent: 3,
+    frightening: 3
+  };
+
+  // Map certifications to approximate content ratings
+  switch (certification) {
+    case 'G':
+      return {
+        violence: 1,
+        language: 1,
+        sexualContent: 1,
+        frightening: 1
+      };
+    case 'PG':
+      return {
+        violence: 2,
+        language: 2,
+        sexualContent: 1,
+        frightening: 2
+      };
+    case 'PG-13':
+      return {
+        violence: 3,
+        language: 3,
+        sexualContent: 2,
+        frightening: 3
+      };
+    case 'R':
+      return {
+        violence: 4,
+        language: 4,
+        sexualContent: 4,
+        frightening: 4
+      };
+    case 'NC-17':
+      return {
+        violence: 5,
+        language: 5,
+        sexualContent: 5,
+        frightening: 5
+      };
+    default:
+      return defaultRatings;
   }
-];
+}
 
 export const fetchRecommendedMovies = async (
   answers: QuestionnaireAnswers,
   profiles: Profile[]
 ): Promise<Movie[]> => {
+  console.log('[Movie Service] Starting fetchRecommendedMovies with answers:', answers);
+  console.log('[Movie Service] Selected profiles:', profiles.map(p => ({ id: p.id, name: p.name })));
+  
   try {
     // Calculate common genres across all profiles
     const favoriteGenreIds = new Set<string>();
@@ -222,13 +119,20 @@ export const fetchRecommendedMovies = async (
       profile.dislikedGenres.forEach(genreId => dislikedGenreIds.add(genreId));
     });
     
+    console.log('[Movie Service] Favorite genres:', Array.from(favoriteGenreIds));
+    console.log('[Movie Service] Disliked genres:', Array.from(dislikedGenreIds));
+    
     // Remove genres that are disliked by any family member
     const filteredGenres = Array.from(favoriteGenreIds)
       .filter(genreId => !dislikedGenreIds.has(genreId));
     
+    console.log('[Movie Service] Filtered genres (after removing disliked):', filteredGenres);
+    
     // Get the age range to determine appropriate content
     const ages = profiles.map(profile => profile.age);
     const minAge = Math.min(...ages);
+    
+    console.log('[Movie Service] Age range - Min age:', minAge);
     
     // Find sensitivity thresholds
     const sensitivityThresholds = {
@@ -246,33 +150,111 @@ export const fetchRecommendedMovies = async (
       sensitivityThresholds.frightening = Math.min(sensitivityThresholds.frightening, sensitivityLevels.frightening);
     });
     
-    // Filter movies based on criteria
-    let filteredMovies = MOCK_MOVIES.filter(movie => {
-      // Check content ratings
-      if (movie.contentRatings) {
-        if (movie.contentRatings.violence > sensitivityThresholds.violence) return false;
-        if (movie.contentRatings.language > sensitivityThresholds.language) return false;
-        if (movie.contentRatings.sexualContent > sensitivityThresholds.sexualContent) return false;
-        if (movie.contentRatings.frightening > sensitivityThresholds.frightening) return false;
-      }
-      
-      // Check duration
-      if (answers.duration < 999 && movie.runtime > answers.duration) return false;
-      
-      // Check platforms
-      if (answers.platforms.length > 0) {
-        if (!movie.providers) return false;
-        const hasMatchingPlatform = answers.platforms.some(platform => movie.providers?.[platform]);
-        if (!hasMatchingPlatform) return false;
-      }
-      
-      return true;
-    });
+    console.log('[Movie Service] Sensitivity thresholds:', sensitivityThresholds);
     
-    // Sort by match score
+    // Build TMDB API parameters
+    const params: Record<string, any> = {
+      sort_by: 'popularity.desc',
+      include_adult: false,
+      'vote_average.gte': answers.minRating > 0 ? answers.minRating : undefined,
+    };
+    
+    // Add certification filter if specified
+    if (answers.certification) {
+      params.certification_country = 'US';
+      params.certification = answers.certification;
+    }
+    
+    // Add duration filter if specified
+    if (answers.duration < 999) {
+      params['with_runtime.lte'] = answers.duration;
+    }
+    
+    // Add genres if available
+    if (filteredGenres.length > 0) {
+      params.with_genres = filteredGenres.join('|');
+    }
+    
+    console.log('[Movie Service] TMDB API parameters:', params);
+    
+    // Fetch movies from TMDB
+    console.log('[Movie Service] Fetching movies from TMDB API...');
+    const response = await discoverMovies(params);
+    
+    if (!response.results || response.results.length === 0) {
+      console.warn('No results from TMDB API, using mock data');
+      return MOCK_MOVIES.slice(0, answers.maxResults);
+    }
+    
+    console.log('[Movie Service] Received', response.results.length, 'movies from TMDB API');
+    
+    // Transform TMDB movies to our Movie type
+    let movies = await Promise.all(
+      response.results.map(async (movie: any) => {
+        const transformedMovie = transformTMDBMovie(movie);
+        
+        // Fetch runtime for each movie if not available
+        if (!movie.runtime) {
+          try {
+            transformedMovie.runtime = await getMovieRuntime(movie.id);
+          } catch (error) {
+            console.error(`Error fetching runtime for movie ${movie.id}:`, error);
+          }
+        }
+        
+        return transformedMovie;
+      })
+    );
+    
+    // Filter by duration if needed
+    if (answers.duration < 999) {
+      movies = movies.filter(movie => movie.runtime <= answers.duration);
+    }
+    
+    // Fetch watch providers for each movie (only for displayed results)
+    const moviesWithProviders = await Promise.all(
+      movies.slice(0, answers.maxResults).map(async (movie) => {
+        try {
+          const providersResponse = await getMovieWatchProviders(movie.id);
+          const results = providersResponse.results || {};
+          
+          // Get providers for user's region (default to US if not available)
+          const regionProviders = results.US || results.GB || Object.values(results)[0] || {};
+          const flatrate = regionProviders.flatrate || [];
+          
+          // Map provider IDs to our provider keys
+          const providers: Record<string, boolean> = {};
+          flatrate.forEach((provider: any) => {
+            const providerKey = providerIdMap[provider.provider_id];
+            if (providerKey) {
+              providers[providerKey] = true;
+            }
+          });
+          
+          return {
+            ...movie,
+            providers
+          };
+        } catch (error) {
+          console.error(`Error fetching providers for movie ${movie.id}:`, error);
+          return movie;
+        }
+      })
+    );
+    
+    // Filter by platforms if specified
+    let filteredMovies = moviesWithProviders;
+    if (answers.platforms.length > 0) {
+      filteredMovies = filteredMovies.filter(movie => {
+        if (!movie.providers) return false;
+        return answers.platforms.some(platform => movie.providers?.[platform]);
+      });
+    }
+    
+    // Calculate match score and reason
     filteredMovies = filteredMovies.map(movie => {
       const genreOverlap = movie.genre_ids
-        .filter(id => filteredGenres.includes(id.toString()))
+        .filter((id: number) => filteredGenres.includes(id.toString()))
         .length;
       
       const matchScore = Math.min(100, Math.round((genreOverlap / Math.max(1, movie.genre_ids.length)) * 100));
@@ -283,6 +265,9 @@ export const fetchRecommendedMovies = async (
       }
       if (answers.mood) {
         matchReason += ` and fits your ${answers.mood} mood`;
+      }
+      if (answers.minRating > 0) {
+        matchReason += ` with a rating of ${movie.vote_average.toFixed(1)}+`;
       }
       if (answers.platforms && answers.platforms.length > 0 && movie.providers) {
         const availablePlatforms = answers.platforms
@@ -314,9 +299,18 @@ export const fetchRecommendedMovies = async (
     }).sort((a, b) => (b.matchScore || 0) - (a.matchScore || 0));
     
     // Return requested number of results
-    return filteredMovies.slice(0, answers.maxResults);
+    const finalResults = filteredMovies.slice(0, answers.maxResults);
+    console.log('[Movie Service] Final results:', finalResults.map(m => ({
+      id: m.id,
+      title: m.title,
+      score: m.matchScore
+    })));
+    
+    return finalResults;
   } catch (error) {
-    console.error('Error fetching recommended movies:', error);
-    throw error;
+    console.error('[Movie Service] Error fetching recommended movies:', error);
+    // Fallback to mock data in case of API failure
+    console.log('[Movie Service] Falling back to mock data');
+    return MOCK_MOVIES.slice(0, answers.maxResults);
   }
 };

@@ -3,23 +3,34 @@ import { useNavigate } from 'react-router-dom';
 import { ChevronLeft, ChevronRight, Clock, Film } from 'lucide-react';
 import { useProfiles } from '../contexts/ProfilesContext';
 import { useMovies } from '../contexts/MoviesContext';
-import { QuestionnaireAnswers, PLATFORM_OPTIONS, MOOD_OPTIONS, DURATION_OPTIONS } from '../types/movie';
+import { useLanguage } from '../contexts/LanguageContext';
+import {
+  QuestionnaireAnswers,
+  PLATFORM_OPTIONS,
+  MOOD_OPTIONS,
+  DURATION_OPTIONS,
+  RATING_OPTIONS,
+  CERTIFICATION_OPTIONS
+} from '../types/movie';
 
 const QuestionnairePage: React.FC = () => {
   const { selectedProfiles, profiles } = useProfiles();
   const { getRecommendations, currentAnswers, loading } = useMovies();
   const navigate = useNavigate();
+  const { t } = useLanguage();
   
   const [answers, setAnswers] = useState<QuestionnaireAnswers>({
     mood: currentAnswers?.mood || 'happy',
     duration: currentAnswers?.duration || 120,
     platforms: currentAnswers?.platforms || [],
     includeWatched: currentAnswers?.includeWatched || false,
-    maxResults: currentAnswers?.maxResults || 3
+    maxResults: currentAnswers?.maxResults || 3,
+    minRating: currentAnswers?.minRating || 0,
+    certification: currentAnswers?.certification || ''
   });
   
   useEffect(() => {
-    document.title = 'Movie Questionnaire - PopCorn Pick';
+    document.title = `${t('questionnaire.title')} - ${t('app.name')}`;
     
     // Redirect if no profiles are selected
     if (selectedProfiles.length === 0) {
@@ -55,6 +66,14 @@ const QuestionnairePage: React.FC = () => {
     }
   };
   
+  const handleRatingSelect = (rating: number) => {
+    setAnswers(prev => ({ ...prev, minRating: rating }));
+  };
+  
+  const handleCertificationSelect = (certification: string) => {
+    setAnswers(prev => ({ ...prev, certification }));
+  };
+  
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     await getRecommendations(answers);
@@ -77,7 +96,7 @@ const QuestionnairePage: React.FC = () => {
         >
           <ChevronLeft className="w-5 h-5" />
         </button>
-        <h1 className="text-2xl md:text-3xl font-bold">Movie Questionnaire</h1>
+        <h1 className="text-2xl md:text-3xl font-bold">{t('questionnaire.title')}</h1>
       </div>
       
       {selectedProfileNames.length > 0 && (
@@ -93,7 +112,7 @@ const QuestionnairePage: React.FC = () => {
           <div>
             <h2 className="text-lg font-semibold mb-4 flex items-center">
               <span className="w-8 h-8 flex items-center justify-center rounded-full bg-primary-100 dark:bg-primary-900 text-primary-600 dark:text-primary-300 mr-2">1</span>
-              What's your mood today?
+              {t('questionnaire.mood')}
             </h2>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
               {MOOD_OPTIONS.map(option => (
@@ -116,7 +135,7 @@ const QuestionnairePage: React.FC = () => {
           <div>
             <h2 className="text-lg font-semibold mb-4 flex items-center">
               <span className="w-8 h-8 flex items-center justify-center rounded-full bg-primary-100 dark:bg-primary-900 text-primary-600 dark:text-primary-300 mr-2">2</span>
-              How much time do you have?
+              {t('questionnaire.duration')}
             </h2>
             <div className="grid grid-cols-2 gap-3">
               {DURATION_OPTIONS.map(option => (
@@ -140,7 +159,7 @@ const QuestionnairePage: React.FC = () => {
           <div>
             <h2 className="text-lg font-semibold mb-4 flex items-center">
               <span className="w-8 h-8 flex items-center justify-center rounded-full bg-primary-100 dark:bg-primary-900 text-primary-600 dark:text-primary-300 mr-2">3</span>
-              Which streaming platforms do you have?
+              {t('questionnaire.streaming')}
             </h2>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
               {PLATFORM_OPTIONS.map(platform => (
@@ -168,6 +187,52 @@ const QuestionnairePage: React.FC = () => {
           <div>
             <h2 className="text-lg font-semibold mb-4 flex items-center">
               <span className="w-8 h-8 flex items-center justify-center rounded-full bg-primary-100 dark:bg-primary-900 text-primary-600 dark:text-primary-300 mr-2">4</span>
+              Movie Rating
+            </h2>
+            <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
+              {RATING_OPTIONS.map(option => (
+                <button
+                  key={option.value}
+                  type="button"
+                  onClick={() => handleRatingSelect(option.value)}
+                  className={`py-3 px-4 rounded-lg text-center transition-all ${
+                    answers.minRating === option.value
+                      ? 'bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 ring-2 ring-primary-500'
+                      : 'bg-cream-100 dark:bg-darkNavy-700 hover:bg-cream-200 dark:hover:bg-darkNavy-600'
+                  }`}
+                >
+                  {option.label}
+                </button>
+              ))}
+            </div>
+          </div>
+          
+          <div>
+            <h2 className="text-lg font-semibold mb-4 flex items-center">
+              <span className="w-8 h-8 flex items-center justify-center rounded-full bg-primary-100 dark:bg-primary-900 text-primary-600 dark:text-primary-300 mr-2">5</span>
+              Content Rating
+            </h2>
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+              {CERTIFICATION_OPTIONS.map(option => (
+                <button
+                  key={option.value}
+                  type="button"
+                  onClick={() => handleCertificationSelect(option.value)}
+                  className={`py-3 px-4 rounded-lg text-center transition-all ${
+                    answers.certification === option.value
+                      ? 'bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 ring-2 ring-primary-500'
+                      : 'bg-cream-100 dark:bg-darkNavy-700 hover:bg-cream-200 dark:hover:bg-darkNavy-600'
+                  }`}
+                >
+                  {option.label}
+                </button>
+              ))}
+            </div>
+          </div>
+          
+          <div>
+            <h2 className="text-lg font-semibold mb-4 flex items-center">
+              <span className="w-8 h-8 flex items-center justify-center rounded-full bg-primary-100 dark:bg-primary-900 text-primary-600 dark:text-primary-300 mr-2">6</span>
               Additional Options
             </h2>
             
@@ -221,7 +286,7 @@ const QuestionnairePage: React.FC = () => {
             ) : (
               <>
                 <Film className="w-5 h-5 mr-2" />
-                Find Perfect Movies
+                {t('questionnaire.findMovies')}
                 <ChevronRight className="w-5 h-5 ml-1" />
               </>
             )}

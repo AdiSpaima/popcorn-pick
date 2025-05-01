@@ -2,24 +2,26 @@ import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { User, Edit, Trash2, Plus, Film } from 'lucide-react';
 import { useProfiles } from '../contexts/ProfilesContext';
+import { useLanguage } from '../contexts/LanguageContext';
 import { GENRE_OPTIONS } from '../types/profile';
 
 const ProfilesPage: React.FC = () => {
-  const { 
-    profiles, 
-    deleteProfile, 
+  const {
+    profiles,
+    deleteProfile,
     selectedProfiles,
     toggleProfileSelection,
     clearSelectedProfiles
   } = useProfiles();
   const navigate = useNavigate();
+  const { t } = useLanguage();
   
   useEffect(() => {
-    document.title = 'Manage Profiles - PopCorn Pick';
+    document.title = `${t('profiles.title')} - ${t('app.name')}`;
   }, []);
   
   const handleDeleteProfile = (id: string) => {
-    if (confirm('Are you sure you want to delete this profile?')) {
+    if (confirm(`${t('profiles.delete')}?`)) {
       deleteProfile(id);
     }
   };
@@ -32,29 +34,29 @@ const ProfilesPage: React.FC = () => {
   return (
     <div className="max-w-4xl mx-auto">
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl md:text-3xl font-bold">Family Profiles</h1>
+        <h1 className="text-2xl md:text-3xl font-bold">{t('profiles.title')}</h1>
         <button
           onClick={() => navigate('/profiles/new')}
           className="inline-flex items-center px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors"
         >
           <Plus className="w-5 h-5 mr-2" />
-          Add Profile
+          {t('profiles.createNew')}
         </button>
       </div>
       
       {profiles.length === 0 ? (
         <div className="bg-white dark:bg-darkNavy-800 rounded-xl p-8 shadow-md text-center">
           <User className="w-16 h-16 mx-auto mb-4 text-navy-400" />
-          <h2 className="text-xl font-semibold mb-2">No profiles yet</h2>
+          <h2 className="text-xl font-semibold mb-2">{t('profiles.noProfiles')}</h2>
           <p className="text-navy-600 dark:text-cream-300 mb-6">
-            Create profiles for each family member to get personalized movie recommendations.
+            {t('home.createProfilesPrompt')}
           </p>
           <button
             onClick={() => navigate('/profiles/new')}
             className="inline-flex items-center px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors"
           >
             <Plus className="w-5 h-5 mr-2" />
-            Create Your First Profile
+            {t('home.createFirstProfile')}
           </button>
         </div>
       ) : (
@@ -79,7 +81,7 @@ const ProfilesPage: React.FC = () => {
                     {profile.name.charAt(0).toUpperCase()}
                   </div>
                   <span className="font-medium">{profile.name}</span>
-                  <span className="text-sm text-navy-500 dark:text-cream-400">{profile.age} years</span>
+                  <span className="text-sm text-navy-500 dark:text-cream-400">{profile.age} {t('profiles.age')}</span>
                 </button>
               ))}
             </div>
@@ -88,7 +90,7 @@ const ProfilesPage: React.FC = () => {
                 onClick={clearSelectedProfiles}
                 className="text-sm text-navy-600 dark:text-cream-300 hover:text-primary-600 dark:hover:text-primary-400"
               >
-                Clear selection
+                {t('profiles.select')}
               </button>
               {selectedProfiles.length > 0 && (
                 <div className="space-x-3">
@@ -97,20 +99,20 @@ const ProfilesPage: React.FC = () => {
                     className="inline-flex items-center px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors"
                   >
                     <Film className="w-5 h-5 mr-2" />
-                    Find Movies ({selectedProfiles.length})
+                    {t('home.findMoviesNow')} ({selectedProfiles.length})
                   </button>
                   <button
                     onClick={() => navigate('/recommendations')}
                     className="inline-flex items-center px-4 py-2 bg-secondary-600 text-white rounded-lg hover:bg-secondary-700 transition-colors"
                   >
-                    Choose Movie
+                    {t('questionnaire.findMovies')}
                   </button>
                 </div>
               )}
             </div>
           </div>
           
-          <h2 className="text-xl font-semibold mb-4">Manage Profiles</h2>
+          <h2 className="text-xl font-semibold mb-4">{t('profiles.title')}</h2>
           <div className="space-y-4">
             {profiles.map(profile => (
               <div 
@@ -125,7 +127,7 @@ const ProfilesPage: React.FC = () => {
                     <div className="flex justify-between items-start">
                       <div>
                         <h3 className="text-lg font-semibold">{profile.name}</h3>
-                        <p className="text-sm text-navy-600 dark:text-cream-300">Age: {profile.age}</p>
+                        <p className="text-sm text-navy-600 dark:text-cream-300">{t('profiles.age')}: {profile.age}</p>
                       </div>
                       <div className="flex space-x-2">
                         <button
@@ -147,7 +149,7 @@ const ProfilesPage: React.FC = () => {
                     
                     {profile.favoriteGenres.length > 0 && (
                       <div className="mt-3">
-                        <p className="text-sm font-medium mb-1">Favorite Genres:</p>
+                        <p className="text-sm font-medium mb-1">{t('profileForm.genres')}:</p>
                         <div className="flex flex-wrap gap-1">
                           {profile.favoriteGenres.slice(0, 4).map(genreId => (
                             <span 

@@ -3,15 +3,17 @@ import { ChevronLeft, Star, ExternalLink, Trash2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useMovies } from '../contexts/MoviesContext';
 import { useProfiles } from '../contexts/ProfilesContext';
+import { useLanguage } from '../contexts/LanguageContext';
 
 const HistoryPage: React.FC = () => {
   const { watchedMovies } = useMovies();
   const { profiles } = useProfiles();
   const navigate = useNavigate();
+  const { t } = useLanguage();
   const [selectedYear, setSelectedYear] = useState<string>('all');
   
   useEffect(() => {
-    document.title = 'Watch History - PopCorn Pick';
+    document.title = `${t('history.title')} - ${t('app.name')}`;
   }, []);
   
   // Extract unique years from watched movies
@@ -66,7 +68,7 @@ const HistoryPage: React.FC = () => {
         >
           <ChevronLeft className="w-5 h-5" />
         </button>
-        <h1 className="text-2xl md:text-3xl font-bold">Watch History</h1>
+        <h1 className="text-2xl md:text-3xl font-bold">{t('history.title')}</h1>
       </div>
       
       {watchedMovies.length === 0 ? (
@@ -76,15 +78,15 @@ const HistoryPage: React.FC = () => {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
           </div>
-          <h2 className="text-xl font-semibold mb-2">No watch history yet</h2>
+          <h2 className="text-xl font-semibold mb-2">{t('history.noHistory')}</h2>
           <p className="text-navy-600 dark:text-cream-300 mb-6">
-            When you mark movies as watched, they'll appear here.
+            {t('history.noHistory')}
           </p>
           <button
             onClick={() => navigate('/')}
             className="px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors"
           >
-            Find Movies to Watch
+            {t('home.findMoviesNow')}
           </button>
         </div>
       ) : (
@@ -139,7 +141,7 @@ const HistoryPage: React.FC = () => {
                           </div>
                           
                           <p className="text-xs text-navy-500 dark:text-cream-400 mb-2">
-                            Watched on {new Date(movie.watchedDate).toLocaleDateString()}
+                            {t('history.watchedOn')} {new Date(movie.watchedDate).toLocaleDateString()}
                           </p>
                           
                           {movie.watchedWith && movie.watchedWith.length > 0 && (

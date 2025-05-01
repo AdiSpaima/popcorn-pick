@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { ChevronLeft, ThumbsUp, ThumbsDown, Star, Clock, Calendar, Info, ArrowUpRight } from 'lucide-react';
 import { useMovies } from '../contexts/MoviesContext';
 import { useProfiles } from '../contexts/ProfilesContext';
+import { useLanguage } from '../contexts/LanguageContext';
 import { PLATFORM_OPTIONS } from '../types/movie';
 import { GENRE_OPTIONS } from '../types/profile';
 
@@ -10,13 +11,14 @@ const RecommendationsPage: React.FC = () => {
   const { recommendedMovies, currentAnswers, addToWatched, loading, error } = useMovies();
   const { selectedProfiles, profiles } = useProfiles();
   const navigate = useNavigate();
+  const { t } = useLanguage();
   
   const [selectedMovieIndex, setSelectedMovieIndex] = useState<number>(0);
   const [showVoteResults, setShowVoteResults] = useState<boolean>(false);
   const [votes, setVotes] = useState<{[key: number]: {up: number, down: number}}>({});
   
   useEffect(() => {
-    document.title = 'Movie Recommendations - PopCorn Pick';
+    document.title = `${t('recommendations.title')} - ${t('app.name')}`;
     
     if (recommendedMovies.length === 0 && !loading && !error) {
       navigate('/questionnaire');
@@ -109,7 +111,7 @@ const RecommendationsPage: React.FC = () => {
     return (
       <div className="flex flex-col items-center justify-center py-12">
         <div className="w-16 h-16 border-4 border-primary-400 border-t-primary-600 rounded-full animate-spin"></div>
-        <p className="mt-4 text-lg font-medium">Finding perfect movies for your family...</p>
+        <p className="mt-4 text-lg font-medium">{t('recommendations.loading')}</p>
       </div>
     );
   }
@@ -137,7 +139,7 @@ const RecommendationsPage: React.FC = () => {
         <div className="bg-accent-50 dark:bg-accent-900/30 p-6 rounded-xl">
           <h2 className="text-2xl font-bold text-accent-700 dark:text-accent-300 mb-2">No Movies Found</h2>
           <p className="text-accent-600 dark:text-accent-400 mb-6">
-            We couldn't find any movies matching your criteria. Try adjusting your preferences.
+            {t('recommendations.noResults')}
           </p>
           <button
             onClick={() => navigate('/questionnaire')}
@@ -164,7 +166,7 @@ const RecommendationsPage: React.FC = () => {
           >
             <ChevronLeft className="w-5 h-5" />
           </button>
-          <h1 className="text-2xl md:text-3xl font-bold">Voting Results</h1>
+          <h1 className="text-2xl md:text-3xl font-bold">{t('recommendations.title')}</h1>
         </div>
         
         <div className="bg-white dark:bg-darkNavy-800 rounded-xl overflow-hidden shadow-lg mb-8">
@@ -232,7 +234,7 @@ const RecommendationsPage: React.FC = () => {
                 onClick={() => handleMarkAsWatched(winnerIndex)}
                 className="px-6 py-3 bg-primary-500 text-white font-medium rounded-lg hover:bg-primary-600 transition-colors"
               >
-                Mark as Watched
+                {t('recommendations.watchedIt')}
               </button>
             </div>
           </div>
@@ -286,7 +288,7 @@ const RecommendationsPage: React.FC = () => {
             onClick={() => navigate('/questionnaire')}
             className="px-4 py-2 border border-navy-300 dark:border-darkNavy-600 rounded-lg text-navy-700 dark:text-cream-300 hover:bg-cream-100 dark:hover:bg-darkNavy-700 transition-colors"
           >
-            Start Over
+            {t('recommendations.back')}
           </button>
         </div>
       </div>
@@ -303,7 +305,7 @@ const RecommendationsPage: React.FC = () => {
         >
           <ChevronLeft className="w-5 h-5" />
         </button>
-        <h1 className="text-2xl md:text-3xl font-bold">Movie Recommendations</h1>
+        <h1 className="text-2xl md:text-3xl font-bold">{t('recommendations.title')}</h1>
       </div>
       
       {selectedProfileNames.length > 0 && (
@@ -480,7 +482,7 @@ const RecommendationsPage: React.FC = () => {
                   onClick={() => handleMarkAsWatched(selectedMovieIndex)}
                   className="text-sm text-primary-600 dark:text-primary-400 hover:underline"
                 >
-                  Mark current movie as watched
+                  {t('recommendations.watchedIt')}
                 </button>
               </div>
             </div>
@@ -493,7 +495,7 @@ const RecommendationsPage: React.FC = () => {
           onClick={() => navigate('/questionnaire')}
           className="px-4 py-2 border border-navy-300 dark:border-darkNavy-600 rounded-lg text-navy-700 dark:text-cream-300 hover:bg-cream-100 dark:hover:bg-darkNavy-700 transition-colors"
         >
-          Start Over
+          {t('recommendations.back')}
         </button>
       </div>
     </div>
