@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ChevronLeft, ThumbsUp, ThumbsDown, Star, Clock, Calendar, Info, ArrowUpRight } from 'lucide-react';
+import { ChevronLeft, ThumbsUp, ThumbsDown, Star, Clock, Calendar, Info, ArrowUpRight, ExternalLink } from 'lucide-react';
 import { useMovies } from '../contexts/MoviesContext';
 import { useProfiles } from '../contexts/ProfilesContext';
 import { useLanguage } from '../contexts/LanguageContext';
@@ -377,6 +377,30 @@ const RecommendationsPage: React.FC = () => {
                     </div>
                   </div>
                   
+                  <div className="mb-4">
+                    <p className="font-medium mb-2">External Links:</p>
+                    <div className="flex flex-wrap gap-3">
+                      <a
+                        href={`https://www.themoviedb.org/movie/${currentMovie.id}-${currentMovie.title.toLowerCase().replace(/\s+/g, '-')}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center px-3 py-1 bg-secondary-100 dark:bg-secondary-900 text-secondary-800 dark:text-secondary-200 rounded-full text-sm hover:bg-secondary-200 dark:hover:bg-secondary-800 transition-colors"
+                      >
+                        <ExternalLink className="w-4 h-4 mr-1" />
+                        TMDB
+                      </a>
+                      <a
+                        href={`https://www.justwatch.com/fr/film/${currentMovie.title.toLowerCase().replace(/\s+/g, '-')}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center px-3 py-1 bg-secondary-100 dark:bg-secondary-900 text-secondary-800 dark:text-secondary-200 rounded-full text-sm hover:bg-secondary-200 dark:hover:bg-secondary-800 transition-colors"
+                      >
+                        <ExternalLink className="w-4 h-4 mr-1" />
+                        JustWatch
+                      </a>
+                    </div>
+                  </div>
+                  
                   {currentMovie.providers && Object.keys(currentMovie.providers).length > 0 && (
                     <div className="mb-4">
                       <p className="font-medium mb-2">Available on:</p>
@@ -427,45 +451,52 @@ const RecommendationsPage: React.FC = () => {
             <h2 className="text-lg font-semibold mb-4">All Recommendations</h2>
             <div className="space-y-3 flex-grow">
               {recommendedMovies.map((movie, index) => (
-                <button
+                <div
                   key={movie.id}
-                  onClick={() => setSelectedMovieIndex(index)}
-                  className={`w-full flex items-center p-2 rounded-lg transition-colors ${
-                    index === selectedMovieIndex 
+                  className={`w-full rounded-lg transition-colors mb-4 ${
+                    index === selectedMovieIndex
                       ? 'bg-primary-100 dark:bg-primary-900'
                       : 'hover:bg-cream-100 dark:hover:bg-darkNavy-700'
                   }`}
                 >
-                  <img 
-                    src={`https://image.tmdb.org/t/p/w92${movie.poster_path}`}
-                    alt={movie.title}
-                    className="w-12 h-16 object-cover rounded"
-                  />
-                  <div className="ml-3 text-left">
-                    <p className={`font-medium ${index === selectedMovieIndex ? 'text-primary-800 dark:text-primary-200' : ''}`}>
-                      {movie.title}
-                    </p>
-                    <div className="flex items-center text-sm text-navy-500 dark:text-cream-400">
-                      <Star className="w-3 h-3 text-accent-500 mr-1" />
-                      <span>{movie.vote_average.toFixed(1)}</span>
-                      <span className="mx-1">•</span>
-                      <span>{formatRuntime(movie.runtime)}</span>
-                    </div>
-                    {movie.matchScore && (
-                      <div className="flex items-center mt-1">
-                        <div className="w-16 h-1.5 bg-cream-200 dark:bg-darkNavy-700 rounded-full">
-                          <div
-                            className="h-1.5 bg-primary-500 rounded-full"
-                            style={{ width: `${movie.matchScore}%` }}
-                          ></div>
-                        </div>
-                        <span className="ml-2 text-xs text-primary-600 dark:text-primary-400">
-                          {movie.matchScore}% match
-                        </span>
+                  <div
+                    className="flex items-center p-2 cursor-pointer"
+                    onClick={() => {
+                      setSelectedMovieIndex(index);
+                      console.log('Movie ID:', movie.id);
+                    }}
+                  >
+                    <img
+                      src={`https://image.tmdb.org/t/p/w92${movie.poster_path}`}
+                      alt={movie.title}
+                      className="w-12 h-16 object-cover rounded"
+                    />
+                    <div className="ml-3 text-left">
+                      <p className={`font-medium ${index === selectedMovieIndex ? 'text-primary-800 dark:text-primary-200' : ''}`}>
+                        {movie.title}
+                      </p>
+                      <div className="flex items-center text-sm text-navy-500 dark:text-cream-400">
+                        <Star className="w-3 h-3 text-accent-500 mr-1" />
+                        <span>{movie.vote_average.toFixed(1)}</span>
+                        <span className="mx-1">•</span>
+                        <span>{formatRuntime(movie.runtime)}</span>
                       </div>
-                    )}
+                      {movie.matchScore && (
+                        <div className="flex items-center mt-1">
+                          <div className="w-16 h-1.5 bg-cream-200 dark:bg-darkNavy-700 rounded-full">
+                            <div
+                              className="h-1.5 bg-primary-500 rounded-full"
+                              style={{ width: `${movie.matchScore}%` }}
+                            ></div>
+                          </div>
+                          <span className="ml-2 text-xs text-primary-600 dark:text-primary-400">
+                            {movie.matchScore}% match
+                          </span>
+                        </div>
+                      )}
+                    </div>
                   </div>
-                </button>
+                </div>
               ))}
             </div>
             

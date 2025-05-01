@@ -91,3 +91,29 @@ To specifically debug API calls:
 
 - Verify that the recommended movies are being displayed correctly.
 - Check that the movie details (including providers) are being displayed correctly.
+
+## File Changes and Hot Reloading
+
+When using Vite in development mode (`npm run dev`):
+
+1. **TSX/TS/JS Files**: You do **not** need to manually recompile these files after making changes. Vite uses Hot Module Replacement (HMR) to automatically:
+   - Detect file changes when you save
+   - Recompile only the changed modules
+   - Update your application in the browser without a full page reload
+   - Preserve component state when possible
+
+2. **CSS/SCSS Files**: Changes to stylesheets are also automatically applied without a page reload.
+
+3. **Environment Variables**: If you change the `.env` file, Vite will automatically restart the development server to apply the changes.
+
+4. **Configuration Files** (vite.config.ts, tsconfig.json, etc.): Changes to these files require a manual restart of the development server:
+   ```
+   # Stop the current server (Ctrl+C)
+   npm run dev
+   ```
+
+You can observe this process in your terminal where `npm run dev` is running. When you change a file, you'll see messages like:
+```
+[vite] file changed: src/components/SomeComponent.tsx
+[vite] hmr update /src/components/SomeComponent.tsx
+```

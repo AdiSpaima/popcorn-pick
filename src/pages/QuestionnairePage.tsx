@@ -61,7 +61,7 @@ const QuestionnairePage: React.FC = () => {
   
   const handleMaxResultsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = parseInt(e.target.value);
-    if (!isNaN(value) && value >= 1 && value <= 5) {
+    if (!isNaN(value) && value >= 1 && value <= 20) {
       setAnswers(prev => ({ ...prev, maxResults: value }));
     }
   };
@@ -252,13 +252,13 @@ const QuestionnairePage: React.FC = () => {
               
               <div>
                 <label htmlFor="maxResults" className="block text-sm text-navy-700 dark:text-cream-300 mb-1">
-                  Number of movie suggestions (1-5):
+                  Number of movie suggestions:
                 </label>
                 <input
                   type="number"
                   id="maxResults"
-                  min="1"
-                  max="5"
+                  min="3"
+                  max="20"
                   value={answers.maxResults}
                   onChange={handleMaxResultsChange}
                   className="w-20 px-3 py-2 border border-navy-300 dark:border-darkNavy-600 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-darkNavy-700 dark:text-white"

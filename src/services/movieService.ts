@@ -211,36 +211,37 @@ export const fetchRecommendedMovies = async (
       movies = movies.filter(movie => movie.runtime <= answers.duration);
     }
     
-    // Fetch watch providers for each movie (only for displayed results)
-    const moviesWithProviders = await Promise.all(
-      movies.slice(0, answers.maxResults).map(async (movie) => {
-        try {
-          const providersResponse = await getMovieWatchProviders(movie.id);
-          const results = providersResponse.results || {};
+    const moviesWithProviders = movies;
+    // // Fetch watch providers for each movie (only for displayed results)
+    // const moviesWithProviders = await Promise.all(
+    //   movies.slice(0, answers.maxResults).map(async (movie) => {
+    //     try {
+    //       const providersResponse = await getMovieWatchProviders(movie.id);
+    //       const results = providersResponse.results || {};
           
-          // Get providers for user's region (default to US if not available)
-          const regionProviders = results.US || results.GB || Object.values(results)[0] || {};
-          const flatrate = regionProviders.flatrate || [];
+    //       // Get providers for user's region (default to US if not available)
+    //       const regionProviders = results.US || results.GB || Object.values(results)[0] || {};
+    //       const flatrate = regionProviders.flatrate || [];
           
-          // Map provider IDs to our provider keys
-          const providers: Record<string, boolean> = {};
-          flatrate.forEach((provider: any) => {
-            const providerKey = providerIdMap[provider.provider_id];
-            if (providerKey) {
-              providers[providerKey] = true;
-            }
-          });
+    //       // Map provider IDs to our provider keys
+    //       const providers: Record<string, boolean> = {};
+    //       flatrate.forEach((provider: any) => {
+    //         const providerKey = providerIdMap[provider.provider_id];
+    //         if (providerKey) {
+    //           providers[providerKey] = true;
+    //         }
+    //       });
           
-          return {
-            ...movie,
-            providers
-          };
-        } catch (error) {
-          console.error(`Error fetching providers for movie ${movie.id}:`, error);
-          return movie;
-        }
-      })
-    );
+    //       return {
+    //         ...movie,
+    //         providers
+    //       };
+    //     } catch (error) {
+    //       console.error(`Error fetching providers for movie ${movie.id}:`, error);
+    //       return movie;
+    //     }
+    //   })
+    // );
     
     // Filter by platforms if specified
     let filteredMovies = moviesWithProviders;
