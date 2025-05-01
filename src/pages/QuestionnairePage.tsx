@@ -72,7 +72,7 @@ const QuestionnairePage: React.FC = () => {
       <div className="flex items-center mb-6">
         <button
           onClick={() => navigate('/profiles')}
-          className="mr-4 p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+          className="mr-4 p-2 rounded-full hover:bg-cream-200 dark:hover:bg-darkNavy-700 transition-colors"
           aria-label="Go back"
         >
           <ChevronLeft className="w-5 h-5" />
@@ -81,18 +81,18 @@ const QuestionnairePage: React.FC = () => {
       </div>
       
       {selectedProfileNames.length > 0 && (
-        <div className="bg-blue-50 dark:bg-blue-900/30 rounded-lg p-4 mb-6">
-          <p className="text-blue-800 dark:text-blue-200">
+        <div className="bg-primary-50 dark:bg-primary-900/30 rounded-lg p-4 mb-6">
+          <p className="text-primary-800 dark:text-primary-200">
             Finding movies for: <span className="font-semibold">{selectedProfileNames.join(', ')}</span>
           </p>
         </div>
       )}
       
-      <form onSubmit={handleSubmit} className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-md">
+      <form onSubmit={handleSubmit} className="bg-white dark:bg-darkNavy-800 rounded-xl p-6 shadow-md">
         <div className="space-y-8">
           <div>
             <h2 className="text-lg font-semibold mb-4 flex items-center">
-              <span className="w-8 h-8 flex items-center justify-center rounded-full bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300 mr-2">1</span>
+              <span className="w-8 h-8 flex items-center justify-center rounded-full bg-primary-100 dark:bg-primary-900 text-primary-600 dark:text-primary-300 mr-2">1</span>
               What's your mood today?
             </h2>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
@@ -103,8 +103,8 @@ const QuestionnairePage: React.FC = () => {
                   onClick={() => handleMoodSelect(option.id)}
                   className={`py-3 px-4 rounded-lg text-center transition-all ${
                     answers.mood === option.id 
-                      ? 'bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 ring-2 ring-blue-500'
-                      : 'bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600'
+                      ? 'bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 ring-2 ring-primary-500'
+                      : 'bg-cream-100 dark:bg-darkNavy-700 hover:bg-cream-200 dark:hover:bg-darkNavy-600'
                   }`}
                 >
                   {option.name}
@@ -115,7 +115,7 @@ const QuestionnairePage: React.FC = () => {
           
           <div>
             <h2 className="text-lg font-semibold mb-4 flex items-center">
-              <span className="w-8 h-8 flex items-center justify-center rounded-full bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300 mr-2">2</span>
+              <span className="w-8 h-8 flex items-center justify-center rounded-full bg-primary-100 dark:bg-primary-900 text-primary-600 dark:text-primary-300 mr-2">2</span>
               How much time do you have?
             </h2>
             <div className="grid grid-cols-2 gap-3">
@@ -126,8 +126,8 @@ const QuestionnairePage: React.FC = () => {
                   onClick={() => handleDurationSelect(option.value)}
                   className={`py-3 px-4 rounded-lg text-center transition-all flex items-center justify-center ${
                     answers.duration === option.value 
-                      ? 'bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 ring-2 ring-blue-500'
-                      : 'bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600'
+                      ? 'bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 ring-2 ring-primary-500'
+                      : 'bg-cream-100 dark:bg-darkNavy-700 hover:bg-cream-200 dark:hover:bg-darkNavy-600'
                   }`}
                 >
                   <Clock className="w-4 h-4 mr-2" />
@@ -139,7 +139,7 @@ const QuestionnairePage: React.FC = () => {
           
           <div>
             <h2 className="text-lg font-semibold mb-4 flex items-center">
-              <span className="w-8 h-8 flex items-center justify-center rounded-full bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300 mr-2">3</span>
+              <span className="w-8 h-8 flex items-center justify-center rounded-full bg-primary-100 dark:bg-primary-900 text-primary-600 dark:text-primary-300 mr-2">3</span>
               Which streaming platforms do you have?
             </h2>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
@@ -150,8 +150,8 @@ const QuestionnairePage: React.FC = () => {
                   onClick={() => handlePlatformToggle(platform.id)}
                   className={`py-3 px-2 rounded-lg text-center transition-all ${
                     answers.platforms.includes(platform.id) 
-                      ? 'bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 ring-2 ring-blue-500'
-                      : 'bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600'
+                      ? 'bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 ring-2 ring-primary-500'
+                      : 'bg-cream-100 dark:bg-darkNavy-700 hover:bg-cream-200 dark:hover:bg-darkNavy-600'
                   }`}
                 >
                   {platform.name}
@@ -159,7 +159,7 @@ const QuestionnairePage: React.FC = () => {
               ))}
             </div>
             {answers.platforms.length === 0 && (
-              <p className="mt-2 text-sm text-yellow-600 dark:text-yellow-400">
+              <p className="mt-2 text-sm text-accent-600 dark:text-accent-400">
                 No platforms selected. We'll show movies regardless of availability.
               </p>
             )}
@@ -167,7 +167,7 @@ const QuestionnairePage: React.FC = () => {
           
           <div>
             <h2 className="text-lg font-semibold mb-4 flex items-center">
-              <span className="w-8 h-8 flex items-center justify-center rounded-full bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300 mr-2">4</span>
+              <span className="w-8 h-8 flex items-center justify-center rounded-full bg-primary-100 dark:bg-primary-900 text-primary-600 dark:text-primary-300 mr-2">4</span>
               Additional Options
             </h2>
             
@@ -178,15 +178,15 @@ const QuestionnairePage: React.FC = () => {
                   id="includeWatched"
                   checked={answers.includeWatched}
                   onChange={handleIncludeWatchedToggle}
-                  className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                  className="w-4 h-4 text-primary-600 border-navy-300 rounded focus:ring-primary-500"
                 />
-                <label htmlFor="includeWatched" className="ml-2 text-sm text-gray-700 dark:text-gray-300">
+                <label htmlFor="includeWatched" className="ml-2 text-sm text-navy-700 dark:text-cream-300">
                   Include previously watched movies
                 </label>
               </div>
               
               <div>
-                <label htmlFor="maxResults" className="block text-sm text-gray-700 dark:text-gray-300 mb-1">
+                <label htmlFor="maxResults" className="block text-sm text-navy-700 dark:text-cream-300 mb-1">
                   Number of movie suggestions (1-5):
                 </label>
                 <input
@@ -196,7 +196,7 @@ const QuestionnairePage: React.FC = () => {
                   max="5"
                   value={answers.maxResults}
                   onChange={handleMaxResultsChange}
-                  className="w-20 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                  className="w-20 px-3 py-2 border border-navy-300 dark:border-darkNavy-600 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-darkNavy-700 dark:text-white"
                 />
               </div>
             </div>
@@ -207,8 +207,8 @@ const QuestionnairePage: React.FC = () => {
           <button
             type="submit"
             disabled={loading}
-            className="inline-flex items-center px-6 py-3 bg-blue-600 text-white font-medium rounded-lg 
-                     hover:bg-blue-700 transition-all shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+            className="inline-flex items-center px-6 py-3 bg-primary-500 text-white font-medium rounded-lg
+                     hover:bg-primary-600 transition-all shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {loading ? (
               <>

@@ -130,7 +130,7 @@ const ProfileFormPage: React.FC = () => {
       <div className="flex items-center mb-6">
         <button
           onClick={() => navigate('/profiles')}
-          className="mr-4 p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+          className="mr-4 p-2 rounded-full hover:bg-cream-200 dark:hover:bg-darkNavy-700 transition-colors"
           aria-label="Go back"
         >
           <ChevronLeft className="w-5 h-5" />
@@ -140,10 +140,10 @@ const ProfileFormPage: React.FC = () => {
         </h1>
       </div>
       
-      <form onSubmit={handleSubmit} className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-md">
+      <form onSubmit={handleSubmit} className="bg-white dark:bg-darkNavy-800 rounded-xl p-6 shadow-md">
         <div className="space-y-6">
           <div>
-            <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+            <label htmlFor="name" className="block text-sm font-medium text-navy-700 dark:text-cream-300 mb-1">
               Name
             </label>
             <input
@@ -153,13 +153,13 @@ const ProfileFormPage: React.FC = () => {
               value={formData.name}
               onChange={handleInputChange}
               placeholder="Enter name"
-              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+              className="w-full px-4 py-2 border border-navy-300 dark:border-darkNavy-600 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-darkNavy-700 dark:text-white"
               required
             />
           </div>
           
           <div>
-            <label htmlFor="age" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+            <label htmlFor="age" className="block text-sm font-medium text-navy-700 dark:text-cream-300 mb-1">
               Age
             </label>
             <input
@@ -170,13 +170,13 @@ const ProfileFormPage: React.FC = () => {
               max="100"
               value={formData.age}
               onChange={handleInputChange}
-              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+              className="w-full px-4 py-2 border border-navy-300 dark:border-darkNavy-600 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-darkNavy-700 dark:text-white"
               required
             />
           </div>
           
           <div>
-            <label htmlFor="language" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+            <label htmlFor="language" className="block text-sm font-medium text-navy-700 dark:text-cream-300 mb-1">
               Preferred Language
             </label>
             <select
@@ -184,7 +184,7 @@ const ProfileFormPage: React.FC = () => {
               name="language"
               value={formData.language}
               onChange={handleInputChange}
-              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+              className="w-full px-4 py-2 border border-navy-300 dark:border-darkNavy-600 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-darkNavy-700 dark:text-white"
             >
               {LANGUAGE_OPTIONS.map(language => (
                 <option key={language.code} value={language.code}>
@@ -195,7 +195,7 @@ const ProfileFormPage: React.FC = () => {
           </div>
           
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
+            <label className="block text-sm font-medium text-navy-700 dark:text-cream-300 mb-3">
               Favorite Genres
             </label>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
@@ -206,23 +206,23 @@ const ProfileFormPage: React.FC = () => {
                   onClick={() => handleGenreToggle(genre.id, 'favoriteGenres')}
                   className={`px-3 py-2 text-sm rounded-lg text-left transition-colors ${
                     formData.favoriteGenres.includes(genre.id)
-                      ? 'bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 border border-blue-300 dark:border-blue-700'
+                      ? 'bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 border border-primary-300 dark:border-primary-700'
                       : formData.dislikedGenres.includes(genre.id)
-                        ? 'bg-gray-100 dark:bg-gray-800 text-gray-400 dark:text-gray-500 border border-gray-300 dark:border-gray-700'
-                        : 'bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 border border-gray-300 dark:border-gray-700'
+                        ? 'bg-cream-100 dark:bg-darkNavy-800 text-navy-400 dark:text-cream-500 border border-navy-300 dark:border-darkNavy-700'
+                        : 'bg-cream-100 dark:bg-darkNavy-800 hover:bg-cream-200 dark:hover:bg-darkNavy-700 border border-navy-300 dark:border-darkNavy-700'
                   }`}
                 >
                   {genre.name}
                 </button>
               ))}
             </div>
-            <p className="mt-2 text-xs text-gray-500 dark:text-gray-400">
+            <p className="mt-2 text-xs text-navy-500 dark:text-cream-400">
               Click to select your favorite genres. Click again to deselect.
             </p>
           </div>
           
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
+            <label className="block text-sm font-medium text-navy-700 dark:text-cream-300 mb-3">
               Disliked Genres
             </label>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
@@ -233,36 +233,36 @@ const ProfileFormPage: React.FC = () => {
                   onClick={() => handleGenreToggle(genre.id, 'dislikedGenres')}
                   className={`px-3 py-2 text-sm rounded-lg text-left transition-colors ${
                     formData.dislikedGenres.includes(genre.id)
-                      ? 'bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200 border border-red-300 dark:border-red-700'
+                      ? 'bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 border border-primary-300 dark:border-primary-700'
                       : formData.favoriteGenres.includes(genre.id)
-                        ? 'bg-gray-100 dark:bg-gray-800 text-gray-400 dark:text-gray-500 border border-gray-300 dark:border-gray-700'
-                        : 'bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 border border-gray-300 dark:border-gray-700'
+                        ? 'bg-cream-100 dark:bg-darkNavy-800 text-navy-400 dark:text-cream-500 border border-navy-300 dark:border-darkNavy-700'
+                        : 'bg-cream-100 dark:bg-darkNavy-800 hover:bg-cream-200 dark:hover:bg-darkNavy-700 border border-navy-300 dark:border-darkNavy-700'
                   }`}
                 >
                   {genre.name}
                 </button>
               ))}
             </div>
-            <p className="mt-2 text-xs text-gray-500 dark:text-gray-400">
+            <p className="mt-2 text-xs text-navy-500 dark:text-cream-400">
               Click to select genres you dislike. Click again to deselect.
             </p>
           </div>
           
           <div>
-            <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
+            <h3 className="text-sm font-medium text-navy-700 dark:text-cream-300 mb-3">
               Content Sensitivity Levels
             </h3>
-            <p className="text-xs text-gray-500 dark:text-gray-400 mb-4">
+            <p className="text-xs text-navy-500 dark:text-cream-400 mb-4">
               Set how sensitive you are to different types of content (1 = very sensitive, 5 = not sensitive)
             </p>
             
             <div className="space-y-4">
               <div>
                 <div className="flex justify-between mb-1">
-                  <label htmlFor="violence" className="text-sm text-gray-700 dark:text-gray-300">
+                  <label htmlFor="violence" className="text-sm text-navy-700 dark:text-cream-300">
                     Violence
                   </label>
-                  <span className="text-sm text-gray-500 dark:text-gray-400">
+                  <span className="text-sm text-navy-500 dark:text-cream-400">
                     Level: {formData.sensitivityLevels.violence}
                   </span>
                 </div>
@@ -276,7 +276,7 @@ const ProfileFormPage: React.FC = () => {
                   onChange={(e) => handleSensitivityChange('violence', parseInt(e.target.value))}
                   className="w-full"
                 />
-                <div className="flex justify-between text-xs text-gray-500 dark:text-gray-400">
+                <div className="flex justify-between text-xs text-navy-500 dark:text-cream-400">
                   <span>Very Sensitive</span>
                   <span>Not Sensitive</span>
                 </div>
@@ -284,10 +284,10 @@ const ProfileFormPage: React.FC = () => {
               
               <div>
                 <div className="flex justify-between mb-1">
-                  <label htmlFor="language" className="text-sm text-gray-700 dark:text-gray-300">
+                  <label htmlFor="language" className="text-sm text-navy-700 dark:text-cream-300">
                     Strong Language
                   </label>
-                  <span className="text-sm text-gray-500 dark:text-gray-400">
+                  <span className="text-sm text-navy-500 dark:text-cream-400">
                     Level: {formData.sensitivityLevels.language}
                   </span>
                 </div>
@@ -301,7 +301,7 @@ const ProfileFormPage: React.FC = () => {
                   onChange={(e) => handleSensitivityChange('language', parseInt(e.target.value))}
                   className="w-full"
                 />
-                <div className="flex justify-between text-xs text-gray-500 dark:text-gray-400">
+                <div className="flex justify-between text-xs text-navy-500 dark:text-cream-400">
                   <span>Very Sensitive</span>
                   <span>Not Sensitive</span>
                 </div>
@@ -309,10 +309,10 @@ const ProfileFormPage: React.FC = () => {
               
               <div>
                 <div className="flex justify-between mb-1">
-                  <label htmlFor="sexualContent" className="text-sm text-gray-700 dark:text-gray-300">
+                  <label htmlFor="sexualContent" className="text-sm text-navy-700 dark:text-cream-300">
                     Sexual Content
                   </label>
-                  <span className="text-sm text-gray-500 dark:text-gray-400">
+                  <span className="text-sm text-navy-500 dark:text-cream-400">
                     Level: {formData.sensitivityLevels.sexualContent}
                   </span>
                 </div>
@@ -326,7 +326,7 @@ const ProfileFormPage: React.FC = () => {
                   onChange={(e) => handleSensitivityChange('sexualContent', parseInt(e.target.value))}
                   className="w-full"
                 />
-                <div className="flex justify-between text-xs text-gray-500 dark:text-gray-400">
+                <div className="flex justify-between text-xs text-navy-500 dark:text-cream-400">
                   <span>Very Sensitive</span>
                   <span>Not Sensitive</span>
                 </div>
@@ -334,10 +334,10 @@ const ProfileFormPage: React.FC = () => {
               
               <div>
                 <div className="flex justify-between mb-1">
-                  <label htmlFor="frightening" className="text-sm text-gray-700 dark:text-gray-300">
+                  <label htmlFor="frightening" className="text-sm text-navy-700 dark:text-cream-300">
                     Frightening Scenes
                   </label>
-                  <span className="text-sm text-gray-500 dark:text-gray-400">
+                  <span className="text-sm text-navy-500 dark:text-cream-400">
                     Level: {formData.sensitivityLevels.frightening}
                   </span>
                 </div>
@@ -351,7 +351,7 @@ const ProfileFormPage: React.FC = () => {
                   onChange={(e) => handleSensitivityChange('frightening', parseInt(e.target.value))}
                   className="w-full"
                 />
-                <div className="flex justify-between text-xs text-gray-500 dark:text-gray-400">
+                <div className="flex justify-between text-xs text-navy-500 dark:text-cream-400">
                   <span>Very Sensitive</span>
                   <span>Not Sensitive</span>
                 </div>
@@ -364,13 +364,13 @@ const ProfileFormPage: React.FC = () => {
           <button
             type="button"
             onClick={() => navigate('/profiles')}
-            className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+            className="px-4 py-2 border border-navy-300 dark:border-darkNavy-600 rounded-lg text-navy-700 dark:text-cream-300 hover:bg-cream-100 dark:hover:bg-darkNavy-700 transition-colors"
           >
             Cancel
           </button>
           <button
             type="submit"
-            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center"
+            className="px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors flex items-center"
           >
             <Save className="w-4 h-4 mr-2" />
             {isEditing ? 'Update Profile' : 'Create Profile'}

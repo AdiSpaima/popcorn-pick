@@ -12,7 +12,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   
   return (
     <div className={`min-h-screen flex flex-col transition-colors duration-300 ${
-      theme === 'dark' ? 'bg-gray-900 text-white' : 'bg-gray-50 text-gray-900'
+      theme === 'dark' ? 'bg-darkNavy-900 text-white' : 'bg-cream-50 text-navy-800'
     }`}>
       <Header />
       <main className="flex-grow container mx-auto px-4 py-6 md:py-8">

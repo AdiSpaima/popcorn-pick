@@ -108,7 +108,7 @@ const RecommendationsPage: React.FC = () => {
   if (loading) {
     return (
       <div className="flex flex-col items-center justify-center py-12">
-        <div className="w-16 h-16 border-4 border-blue-400 border-t-blue-600 rounded-full animate-spin"></div>
+        <div className="w-16 h-16 border-4 border-primary-400 border-t-primary-600 rounded-full animate-spin"></div>
         <p className="mt-4 text-lg font-medium">Finding perfect movies for your family...</p>
       </div>
     );
@@ -122,7 +122,7 @@ const RecommendationsPage: React.FC = () => {
           <p className="text-red-600 dark:text-red-400 mb-6">{error}</p>
           <button
             onClick={() => navigate('/questionnaire')}
-            className="px-5 py-2 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors"
+            className="px-5 py-2 bg-primary-500 text-white font-medium rounded-lg hover:bg-primary-600 transition-colors"
           >
             Try Again
           </button>
@@ -134,14 +134,14 @@ const RecommendationsPage: React.FC = () => {
   if (recommendedMovies.length === 0) {
     return (
       <div className="max-w-3xl mx-auto text-center py-12">
-        <div className="bg-yellow-50 dark:bg-yellow-900/30 p-6 rounded-xl">
-          <h2 className="text-2xl font-bold text-yellow-700 dark:text-yellow-300 mb-2">No Movies Found</h2>
-          <p className="text-yellow-600 dark:text-yellow-400 mb-6">
+        <div className="bg-accent-50 dark:bg-accent-900/30 p-6 rounded-xl">
+          <h2 className="text-2xl font-bold text-accent-700 dark:text-accent-300 mb-2">No Movies Found</h2>
+          <p className="text-accent-600 dark:text-accent-400 mb-6">
             We couldn't find any movies matching your criteria. Try adjusting your preferences.
           </p>
           <button
             onClick={() => navigate('/questionnaire')}
-            className="px-5 py-2 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors"
+            className="px-5 py-2 bg-primary-500 text-white font-medium rounded-lg hover:bg-primary-600 transition-colors"
           >
             Adjust Preferences
           </button>
@@ -159,7 +159,7 @@ const RecommendationsPage: React.FC = () => {
         <div className="flex items-center mb-6">
           <button
             onClick={() => setShowVoteResults(false)}
-            className="mr-4 p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+            className="mr-4 p-2 rounded-full hover:bg-cream-200 dark:hover:bg-darkNavy-700 transition-colors"
             aria-label="Go back"
           >
             <ChevronLeft className="w-5 h-5" />
@@ -167,7 +167,7 @@ const RecommendationsPage: React.FC = () => {
           <h1 className="text-2xl md:text-3xl font-bold">Voting Results</h1>
         </div>
         
-        <div className="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg mb-8">
+        <div className="bg-white dark:bg-darkNavy-800 rounded-xl overflow-hidden shadow-lg mb-8">
           <div className="relative">
             <img 
               src={`https://image.tmdb.org/t/p/w1280${winnerMovie.backdrop_path || winnerMovie.poster_path}`}
@@ -186,13 +186,13 @@ const RecommendationsPage: React.FC = () => {
           </div>
           
           <div className="p-4 sm:p-6">
-            <div className="flex items-center justify-center p-4 bg-blue-50 dark:bg-blue-900/30 rounded-lg mb-4">
+            <div className="flex items-center justify-center p-4 bg-primary-50 dark:bg-primary-900/30 rounded-lg mb-4">
               <div className="text-center">
-                <p className="text-blue-700 dark:text-blue-300 font-medium mb-1">Your Family's Winner</p>
-                <div className="text-blue-800 dark:text-blue-200 font-bold text-xl mb-1">
+                <p className="text-primary-700 dark:text-primary-300 font-medium mb-1">Your Family's Winner</p>
+                <div className="text-primary-800 dark:text-primary-200 font-bold text-xl mb-1">
                   {winnerMovie.title}
                 </div>
-                <p className="text-blue-600 dark:text-blue-400 text-sm">
+                <p className="text-primary-600 dark:text-primary-400 text-sm">
                   with {votes[winnerMovie.id]?.up || 0} votes
                 </p>
               </div>
@@ -202,11 +202,11 @@ const RecommendationsPage: React.FC = () => {
             
             <div className="grid grid-cols-2 gap-3 mb-4">
               <div className="flex items-center">
-                <Clock className="w-5 h-5 text-gray-500 dark:text-gray-400 mr-2" />
+                <Clock className="w-5 h-5 text-navy-500 dark:text-cream-400 mr-2" />
                 <span>{formatRuntime(winnerMovie.runtime)}</span>
               </div>
               <div className="flex items-center">
-                <Calendar className="w-5 h-5 text-gray-500 dark:text-gray-400 mr-2" />
+                <Calendar className="w-5 h-5 text-navy-500 dark:text-cream-400 mr-2" />
                 <span>{new Date(winnerMovie.release_date).getFullYear()}</span>
               </div>
             </div>
@@ -218,7 +218,7 @@ const RecommendationsPage: React.FC = () => {
                   {getPlatformNames(winnerMovie.providers).map(platform => (
                     <span 
                       key={platform}
-                      className="px-3 py-1 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded-full text-sm"
+                      className="px-3 py-1 bg-secondary-100 dark:bg-secondary-900 text-secondary-800 dark:text-secondary-200 rounded-full text-sm"
                     >
                       {platform}
                     </span>
@@ -230,7 +230,7 @@ const RecommendationsPage: React.FC = () => {
             <div className="mt-6 flex justify-center">
               <button
                 onClick={() => handleMarkAsWatched(winnerIndex)}
-                className="px-6 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors"
+                className="px-6 py-3 bg-primary-500 text-white font-medium rounded-lg hover:bg-primary-600 transition-colors"
               >
                 Mark as Watched
               </button>
@@ -238,7 +238,7 @@ const RecommendationsPage: React.FC = () => {
           </div>
         </div>
         
-        <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-md mb-6">
+        <div className="bg-white dark:bg-darkNavy-800 rounded-xl p-6 shadow-md mb-6">
           <h2 className="text-xl font-semibold mb-4">All Voting Results</h2>
           <div className="space-y-4">
             {recommendedMovies.map((movie, index) => {
@@ -251,9 +251,9 @@ const RecommendationsPage: React.FC = () => {
                 <div 
                   key={movie.id}
                   className={`p-4 rounded-lg border ${
-                    index === winnerIndex 
-                      ? 'border-blue-300 dark:border-blue-700 bg-blue-50 dark:bg-blue-900/20' 
-                      : 'border-gray-200 dark:border-gray-700'
+                    index === winnerIndex
+                      ? 'border-primary-300 dark:border-primary-700 bg-primary-50 dark:bg-primary-900/20'
+                      : 'border-cream-200 dark:border-darkNavy-700'
                   }`}
                 >
                   <div className="flex justify-between items-center mb-2">
@@ -269,9 +269,9 @@ const RecommendationsPage: React.FC = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
-                    <div 
-                      className="bg-blue-600 h-2.5 rounded-full" 
+                  <div className="w-full bg-cream-200 dark:bg-darkNavy-700 rounded-full h-2.5">
+                    <div
+                      className="bg-primary-500 h-2.5 rounded-full"
                       style={{ width: `${upPercentage}%` }}
                     ></div>
                   </div>
@@ -284,7 +284,7 @@ const RecommendationsPage: React.FC = () => {
         <div className="flex justify-between">
           <button
             onClick={() => navigate('/questionnaire')}
-            className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+            className="px-4 py-2 border border-navy-300 dark:border-darkNavy-600 rounded-lg text-navy-700 dark:text-cream-300 hover:bg-cream-100 dark:hover:bg-darkNavy-700 transition-colors"
           >
             Start Over
           </button>
@@ -298,7 +298,7 @@ const RecommendationsPage: React.FC = () => {
       <div className="flex items-center mb-6">
         <button
           onClick={() => navigate('/questionnaire')}
-          className="mr-4 p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+          className="mr-4 p-2 rounded-full hover:bg-cream-200 dark:hover:bg-darkNavy-700 transition-colors"
           aria-label="Go back"
         >
           <ChevronLeft className="w-5 h-5" />
@@ -307,8 +307,8 @@ const RecommendationsPage: React.FC = () => {
       </div>
       
       {selectedProfileNames.length > 0 && (
-        <div className="bg-blue-50 dark:bg-blue-900/30 rounded-lg p-4 mb-6">
-          <p className="text-blue-800 dark:text-blue-200">
+        <div className="bg-primary-50 dark:bg-primary-900/30 rounded-lg p-4 mb-6">
+          <p className="text-primary-800 dark:text-primary-200">
             Movies for: <span className="font-semibold">{selectedProfileNames.join(', ')}</span>
           </p>
         </div>
@@ -316,7 +316,7 @@ const RecommendationsPage: React.FC = () => {
       
       <div className="grid grid-cols-1 md:grid-cols-12 gap-6 mb-8">
         <div className="md:col-span-8">
-          <div className="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg h-full flex flex-col">
+          <div className="bg-white dark:bg-darkNavy-800 rounded-xl overflow-hidden shadow-lg h-full flex flex-col">
             {currentMovie ? (
               <>
                 <div className="relative">
@@ -338,10 +338,10 @@ const RecommendationsPage: React.FC = () => {
                 
                 <div className="p-4 sm:p-6 flex-grow">
                   {currentMovie.matchReason && (
-                    <div className="mb-4 p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
+                    <div className="mb-4 p-3 bg-primary-50 dark:bg-primary-900/20 rounded-lg">
                       <div className="flex">
-                        <Info className="w-5 h-5 text-blue-500 dark:text-blue-400 mr-2 flex-shrink-0 mt-0.5" />
-                        <p className="text-blue-800 dark:text-blue-200 text-sm">
+                        <Info className="w-5 h-5 text-primary-500 dark:text-primary-400 mr-2 flex-shrink-0 mt-0.5" />
+                        <p className="text-primary-800 dark:text-primary-200 text-sm">
                           {currentMovie.matchReason}
                         </p>
                       </div>
@@ -352,11 +352,11 @@ const RecommendationsPage: React.FC = () => {
                   
                   <div className="grid grid-cols-2 gap-3 mb-4">
                     <div className="flex items-center">
-                      <Clock className="w-5 h-5 text-gray-500 dark:text-gray-400 mr-2" />
+                      <Clock className="w-5 h-5 text-navy-500 dark:text-cream-400 mr-2" />
                       <span>{formatRuntime(currentMovie.runtime)}</span>
                     </div>
                     <div className="flex items-center">
-                      <Calendar className="w-5 h-5 text-gray-500 dark:text-gray-400 mr-2" />
+                      <Calendar className="w-5 h-5 text-navy-500 dark:text-cream-400 mr-2" />
                       <span>{new Date(currentMovie.release_date).getFullYear()}</span>
                     </div>
                   </div>
@@ -367,7 +367,7 @@ const RecommendationsPage: React.FC = () => {
                       {getGenreNames(currentMovie.genre_ids).map(genre => (
                         <span 
                           key={genre}
-                          className="px-3 py-1 bg-gray-100 dark:bg-gray-700 rounded-full text-sm"
+                          className="px-3 py-1 bg-cream-100 dark:bg-darkNavy-700 rounded-full text-sm"
                         >
                           {genre}
                         </span>
@@ -382,7 +382,7 @@ const RecommendationsPage: React.FC = () => {
                         {getPlatformNames(currentMovie.providers).map(platform => (
                           <span 
                             key={platform}
-                            className="px-3 py-1 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded-full text-sm"
+                            className="px-3 py-1 bg-secondary-100 dark:bg-secondary-900 text-secondary-800 dark:text-secondary-200 rounded-full text-sm"
                           >
                             {platform}
                           </span>
@@ -395,7 +395,7 @@ const RecommendationsPage: React.FC = () => {
                     <div className="flex justify-between items-center">
                       <button
                         onClick={() => handleVote(currentMovie.id, 'down')}
-                        className="flex items-center justify-center px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                        className="flex items-center justify-center px-4 py-2 border border-navy-300 dark:border-darkNavy-600 rounded-lg text-navy-700 dark:text-cream-300 hover:bg-cream-100 dark:hover:bg-darkNavy-700 transition-colors"
                       >
                         <ThumbsDown className="w-5 h-5 mr-2 text-red-500" />
                         Not interested
@@ -403,7 +403,7 @@ const RecommendationsPage: React.FC = () => {
                       
                       <button
                         onClick={() => handleVote(currentMovie.id, 'up')}
-                        className="flex items-center justify-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                        className="flex items-center justify-center px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors"
                       >
                         <ThumbsUp className="w-5 h-5 mr-2" />
                         Interested
@@ -421,7 +421,7 @@ const RecommendationsPage: React.FC = () => {
         </div>
         
         <div className="md:col-span-4">
-          <div className="bg-white dark:bg-gray-800 rounded-xl p-4 shadow-md h-full flex flex-col">
+          <div className="bg-white dark:bg-darkNavy-800 rounded-xl p-4 shadow-md h-full flex flex-col">
             <h2 className="text-lg font-semibold mb-4">All Recommendations</h2>
             <div className="space-y-3 flex-grow">
               {recommendedMovies.map((movie, index) => (
@@ -430,8 +430,8 @@ const RecommendationsPage: React.FC = () => {
                   onClick={() => setSelectedMovieIndex(index)}
                   className={`w-full flex items-center p-2 rounded-lg transition-colors ${
                     index === selectedMovieIndex 
-                      ? 'bg-blue-100 dark:bg-blue-900' 
-                      : 'hover:bg-gray-100 dark:hover:bg-gray-700'
+                      ? 'bg-primary-100 dark:bg-primary-900'
+                      : 'hover:bg-cream-100 dark:hover:bg-darkNavy-700'
                   }`}
                 >
                   <img 
@@ -440,24 +440,24 @@ const RecommendationsPage: React.FC = () => {
                     className="w-12 h-16 object-cover rounded"
                   />
                   <div className="ml-3 text-left">
-                    <p className={`font-medium ${index === selectedMovieIndex ? 'text-blue-800 dark:text-blue-200' : ''}`}>
+                    <p className={`font-medium ${index === selectedMovieIndex ? 'text-primary-800 dark:text-primary-200' : ''}`}>
                       {movie.title}
                     </p>
-                    <div className="flex items-center text-sm text-gray-500 dark:text-gray-400">
-                      <Star className="w-3 h-3 text-yellow-500 mr-1" />
+                    <div className="flex items-center text-sm text-navy-500 dark:text-cream-400">
+                      <Star className="w-3 h-3 text-accent-500 mr-1" />
                       <span>{movie.vote_average.toFixed(1)}</span>
                       <span className="mx-1">•</span>
                       <span>{formatRuntime(movie.runtime)}</span>
                     </div>
                     {movie.matchScore && (
                       <div className="flex items-center mt-1">
-                        <div className="w-16 h-1.5 bg-gray-200 dark:bg-gray-700 rounded-full">
-                          <div 
-                            className="h-1.5 bg-blue-600 rounded-full" 
+                        <div className="w-16 h-1.5 bg-cream-200 dark:bg-darkNavy-700 rounded-full">
+                          <div
+                            className="h-1.5 bg-primary-500 rounded-full"
                             style={{ width: `${movie.matchScore}%` }}
                           ></div>
                         </div>
-                        <span className="ml-2 text-xs text-blue-600 dark:text-blue-400">
+                        <span className="ml-2 text-xs text-primary-600 dark:text-primary-400">
                           {movie.matchScore}% match
                         </span>
                       </div>
@@ -470,7 +470,7 @@ const RecommendationsPage: React.FC = () => {
             <div className="pt-4 mt-auto">
               <button
                 onClick={handleShowResults}
-                className="w-full flex items-center justify-center px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+                className="w-full flex items-center justify-center px-4 py-2 bg-secondary-600 text-white rounded-lg hover:bg-secondary-700 transition-colors"
               >
                 Show Voting Results
                 <ArrowUpRight className="w-4 h-4 ml-1" />
@@ -478,7 +478,7 @@ const RecommendationsPage: React.FC = () => {
               <div className="mt-3 text-center">
                 <button
                   onClick={() => handleMarkAsWatched(selectedMovieIndex)}
-                  className="text-sm text-blue-600 dark:text-blue-400 hover:underline"
+                  className="text-sm text-primary-600 dark:text-primary-400 hover:underline"
                 >
                   Mark current movie as watched
                 </button>
@@ -491,7 +491,7 @@ const RecommendationsPage: React.FC = () => {
       <div className="flex justify-between">
         <button
           onClick={() => navigate('/questionnaire')}
-          className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+          className="px-4 py-2 border border-navy-300 dark:border-darkNavy-600 rounded-lg text-navy-700 dark:text-cream-300 hover:bg-cream-100 dark:hover:bg-darkNavy-700 transition-colors"
         >
           Start Over
         </button>
